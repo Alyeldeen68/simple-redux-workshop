@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { Link, Route, Routes } from "react-router-dom";
+import Home from "./Components/Home";
+import About from "./Components/About";
+import Services from "./Components/Services";
+import { connect } from "react-redux";
+import { decrementCounter, incrementCounter } from "./Redux/Actions";
 
-function App() {
+const mapStateToProps = (state) => {
+  return {
+    counter: state.counter,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    increment: (count) => dispatch(incrementCounter(count)),
+    decrement: (count) => dispatch(decrementCounter(count)),
+  };
+};
+function App(props) {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <button onClick={() => props.decrement(props.count)}>-</button>
+        <p>{props.counter}</p>
+        <button onClick={() => props.increment(props.count)}>+</button>
+      </div>
+      <About />
     </div>
   );
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
